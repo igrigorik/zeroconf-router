@@ -8,13 +8,22 @@ require 'spdy'
 
 class Router < Goliath::API
 
-  def proxy(env, data)
-    sent = env.config['zmq'].send_msg('', data)
-    env.logger.info "Proxying: #{data.size} to ZMQ worker, #{sent}"
+  def proxy(env, data, flush = false)
+    if flush
+      data = [env['spdy'], data].flatten
+      env.logger.info data
+      sent = env.config['zmq'].send_msg('', *data)
+      env.logger.info "Proxying: #{data.size} messages to ZMQ worker, status: #{sent}"
+
+    else
+      env['spdy'] ||= []
+      env['spdy'] << data
+      env.logger.info "Buffered SPDY message. buffer size: #{env['spdy'].size}"
+    end
   end
 
   def on_headers(env, headers)
-    env.logger.info 'received headers: ' + headers.inspect
+    env.logger.info 'received HTTP headers: ' + headers.inspect
 
     sr = SPDY::Protocol::Control::SynStream.new
     headers = headers.inject({}) {|h,(k,v)| h[k.downcase] = v; h}
@@ -35,12 +44,15 @@ class Router < Goliath::API
   end
 
   def on_body(env, data)
-    env.logger.info 'received data: ' + data
+    return if data.empty?
+    env.logger.info 'received HTTP data: ' + data
 
-    body = SPDY::Protocol::Data::Frame.new
-    body.create(:stream_id => env['stream_id'], :data => data)
+    # TODO: Proxy body data in chunks
+    # body = SPDY::Protocol::Data::Frame.new
+    # body.create(:stream_id => env['stream_id'], :data => data)
+    # proxy(env, body.to_binary_s)
 
-    proxy(env, body.to_binary_s)
+    (env['body'] ||= '') << data
   end
 
   def on_close(env)
@@ -54,9 +66,9 @@ class Router < Goliath::API
     env.logger.info "Finished connection-request"
 
     fin = SPDY::Protocol::Data::Frame.new
-    fin.create(:stream_id => env['stream_id'], :flags => 1)
+    fin.create(:stream_id => env['stream_id'], :data => env['body'], :flags => 1)
 
-    proxy(env, fin.to_binary_s)
+    proxy(env, fin.to_binary_s, true)
 
     # TODO: merge upstream Goliath return
     # Goliath::Connection::AsyncResponse
