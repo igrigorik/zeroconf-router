@@ -18,6 +18,8 @@ All reverse proxy servers have a common pain point: they have to know which back
 
 ## Example
 
+    $> bundle install
+    $>
     $> ruby hello.rb worker-1
     $> ruby hello.rb worker-2
     $>

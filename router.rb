@@ -1,10 +1,13 @@
-$: << '/git/spdy/lib'
-$: << '/git/goliath/lib'
-$: << '/git/em-zeromq/lib'
+require 'bundler'
+Bundler.require
 
-require 'em-zeromq'
-require 'goliath'
-require 'spdy'
+# $: << '/git/spdy/lib'
+# $: << '/git/goliath/lib'
+# $: << '/git/em-zeromq/lib'
+#
+# require 'em-zeromq'
+# require 'goliath'
+# require 'spdy'
 
 class Router < Goliath::API
 
@@ -70,9 +73,8 @@ class Router < Goliath::API
 
     proxy(env, fin.to_binary_s, true)
 
-    # TODO: merge upstream Goliath return
-    # Goliath::Connection::AsyncResponse
-    nil
+    # don't send any response to client just yet
+    [nil, nil, nil]
   end
 
 end

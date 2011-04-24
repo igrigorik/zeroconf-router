@@ -1,7 +1,10 @@
-$: << '/git/spdy/lib'
+require 'bundler'
+Bundler.require
 
-require 'ffi-rzmq'
-require 'spdy'
+# $: << '/git/spdy/lib'
+#
+# require 'ffi-rzmq'
+# require 'spdy'
 
 class Worker
   def initialize(opts = {})

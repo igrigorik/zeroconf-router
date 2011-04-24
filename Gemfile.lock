@@ -1,0 +1,63 @@
+GIT
+  remote: git://github.com/andrewvc/em-zeromq.git
+  revision: 0b19d683f9ee2894c28b11405d275331a2c51bbd
+  specs:
+    em-zeromq (0.2.1)
+      eventmachine (>= 1.0.0.beta.3)
+      ffi-rzmq (>= 0.7.2)
+
+GIT
+  remote: git://github.com/igrigorik/spdy.git
+  revision: a9288b06da812c39baa83b3113ede867e6eff423
+  specs:
+    spdy (0.0.2)
+      bindata
+      ffi-zlib
+
+GIT
+  remote: git://github.com/postrank-labs/goliath.git
+  revision: c879223db898e3aad9036c007f74b51e3fa963df
+  specs:
+    goliath (0.9.1)
+      async-rack
+      em-synchrony (>= 0.3.0.beta.1)
+      eventmachine (>= 1.0.0.beta.3)
+      http_parser.rb
+      log4r
+      multi_json
+      rack (>= 1.2.2)
+      rack-contrib
+      rack-respond_to
+
+GEM
+  remote: http://rubygems.org/
+  specs:
+    async-rack (0.5.1)
+      rack (~> 1.1)
+    bindata (1.3.1)
+    em-synchrony (0.3.0.beta.1)
+      eventmachine (>= 1.0.0.beta.1)
+    eventmachine (1.0.0.beta.3)
+    ffi (1.0.7)
+      rake (>= 0.8.7)
+    ffi-rzmq (0.7.2)
+    ffi-zlib (0.2.0)
+      ffi
+    http_parser.rb (0.5.1)
+    log4r (1.1.9)
+    multi_json (0.0.5)
+    rack (1.2.2)
+    rack-accept-media-types (0.9)
+    rack-contrib (1.1.0)
+      rack (>= 0.9.1)
+    rack-respond_to (0.9.8)
+      rack-accept-media-types (>= 0.6)
+    rake (0.8.7)
+
+PLATFORMS
+  ruby
+
+DEPENDENCIES
+  em-zeromq!
+  goliath!
+  spdy!
