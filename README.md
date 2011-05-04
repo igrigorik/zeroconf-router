@@ -24,7 +24,7 @@ Looks familiar? We specified three backend app servers in this Nginx config. How
 
 ## Architecture / Assumptions
 
-Ultimately this functionality should be nothing more than a module in Nginx, Apache, or equivalent, but for the sake of a prototype, this is built via/with an async [Goliath app server](github.com/postrank-labs/goliath) which parses the HTTP protocol and feeds us incoming data.
+Ultimately this functionality should be nothing more than a module in Nginx, Apache, or equivalent, but for the sake of a prototype, this is built via/with an async [Goliath app server](http://github.com/postrank-labs/goliath) which parses the HTTP protocol and feeds us incoming data.
 
 **Converting HTTP to a stream oriented protocol:** HTTP is not built for stream multiplexing, but protocols like [SPDY attempt to solve this](http://www.igvita.com/2011/04/07/life-beyond-http-11-googles-spdy/) by introducing an explicit concept of streams and stream IDs into each packet. Hence, Goliath parses the HTTP request and converts the incoming request into SPDY protocol (Control + Data packets) - in other words, `router.rb` is an HTTP -> SPDY proxy.
 
