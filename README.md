@@ -1,6 +1,7 @@
 # Zero-config reverse proxies: let's get there!
 
-(tl;dr - zero config reverse proxy example via HTTP -> SPDY -> 0MQ)
+- tl;dr - zero config reverse proxy example via HTTP -> SPDY -> 0MQ
+- [discussion on hacker news](http://news.ycombinator.com/item?id=2514308)
 
 All reverse proxy servers have a common pain point: they have to know which backends requests can be routed to. Need to bring up a new appserver behind Nginx, HAProxy, or equivalent? Update your config, then HUP or reboot the server - painful. Why can't we decouple this relationship once and for all? Nginx, HAProxy and similar tools are all great, but what is missing is a simple protocol that would allow us to decouple these frontends from explicitly specifying each and every routing rule for every backend. Specifically, what we talking about?
 
